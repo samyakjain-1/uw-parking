@@ -5,6 +5,8 @@ import GarageList from './components/GarageList';
 import MapController from './components/MapController';
 import './App.css';
 
+// --- Helper Functions ---
+
 // Haversine formula to calculate distance between two lat/lng points
 const haversineDistance = (coords1, coords2) => {
   const toRad = (x) => (x * Math.PI) / 180;
@@ -23,6 +25,47 @@ const haversineDistance = (coords1, coords2) => {
   return R * c; // Distance in miles
 };
 
+// New helper to determine the current rate based on time
+const getCurrentRate = (garage) => {
+  const now = new Date();
+  // Assuming CDT - getDay() is 0 for Sun, 6 for Sat
+  const day = now.getDay(); 
+  const hour = now.getHours();
+
+  const isWeekday = day >= 1 && day <= 5;
+  const isDaytime = hour >= 7 && hour < 16.5; // 4:30 PM is 16.5
+  const isEvening = hour >= 16.5 && hour < 24;
+
+  if (garage.notes.includes("Enforced at all times")) {
+    return hour >= 7 ? garage.daytime_rate : garage.evening_rate;
+  }
+  
+  if (garage.notes.includes("all day Sat/Sun")) {
+    if (!isWeekday) return "Free";
+    if (isDaytime) return garage.daytime_rate;
+    if (isEvening) return garage.evening_rate;
+    return "Free";
+  }
+
+  if (garage.notes.includes("all day Sun")) {
+    if (day === 0) return "Free";
+    if (isDaytime) return garage.daytime_rate;
+    if (isEvening) return garage.evening_rate;
+    return "Free";
+  }
+
+  if (garage.notes.includes("daily")) {
+    if (isDaytime) return garage.daytime_rate;
+    if (isEvening) return garage.evening_rate;
+    return "Free";
+  }
+
+  return "Check notes for details";
+};
+
+
+// --- Main Component ---
+
 const MapContainer = () => {
   const [allGarages, setAllGarages] = useState([]);
   const [selectedGarage, setSelectedGarage] = useState(null);
@@ -33,9 +76,11 @@ const MapContainer = () => {
   const apiIsLoaded = useApiIsLoaded();
 
   useEffect(() => {
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+    
     const fetchGarages = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/garages');
+        const response = await fetch(`${apiUrl}/api/garages`);
         const data = await response.json();
         const validGarages = data.filter(g => g.latitude && g.longitude);
         setAllGarages(validGarages);
@@ -43,7 +88,10 @@ const MapContainer = () => {
         console.error("Error fetching garage data:", error);
       }
     };
+
+    // The backend now scrapes automatically, so we just fetch the data.
     fetchGarages();
+    
     const intervalId = setInterval(fetchGarages, 30000);
     return () => clearInterval(intervalId);
   }, []);
@@ -57,7 +105,7 @@ const MapContainer = () => {
 
   const handleGarageSelect = (garage) => {
     setSelectedGarage(garage);
-    setShowGarageList(false); // Hide list when a garage is selected from it
+    setShowGarageList(false);
     setMapCenter({ lat: garage.latitude, lng: garage.longitude });
     setMapZoom(17);
   };
@@ -65,8 +113,8 @@ const MapContainer = () => {
   const handleCloseList = () => {
     setDestination(null);
     setShowGarageList(false);
-    setMapCenter({ lat: 43.07659, lng: -89.41248 }); // Reset map center
-    setMapZoom(14); // Reset map zoom
+    setMapCenter({ lat: 43.07659, lng: -89.41248 });
+    setMapZoom(14);
   };
 
   const availableGarages = useMemo(() => {
@@ -132,13 +180,19 @@ const MapContainer = () => {
             position={{ lat: selectedGarage.latitude, lng: selectedGarage.longitude }}
             onCloseClick={() => setSelectedGarage(null)}
           >
-            <div>
+            <div className="info-window">
               <h3>{selectedGarage.name}</h3>
+              <p><strong>Current Rate:</strong> {getCurrentRate(selectedGarage)}</p>
               <p><strong>Availability:</strong> {selectedGarage.vacant_stalls || 'N/A'}</p>
               {selectedGarage.distance !== null && (
                 <p><strong>Distance:</strong> {selectedGarage.distance.toFixed(2)} miles</p>
               )}
               <p><strong>Address:</strong> {selectedGarage.address}</p>
+              <hr />
+              <p>{selectedGarage.daytime_rate}</p>
+              <p>{selectedGarage.evening_rate}</p>
+              <p><strong>Notes:</strong> {selectedGarage.notes}</p>
+              <hr />
               <p><small>Last updated: {new Date(selectedGarage.timestamp).toLocaleString()}</small></p>
             </div>
           </InfoWindow>

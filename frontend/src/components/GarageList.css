@@ -74,18 +74,29 @@
   color: #555;
 }
 
-.garage-availability {
-  text-align: right;
+.garage-details {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
-.garage-availability span {
+.garage-availability, .garage-rate {
+  text-align: center;
+  min-width: 60px;
+}
+
+.garage-availability span, .garage-rate span {
   font-size: 20px;
   font-weight: bold;
   color: #28a745;
 }
 
-.garage-availability small {
+.garage-availability small, .garage-rate small {
   font-size: 12px;
   color: #6c757d;
   display: block;
+}
+
+.garage-rate span {
+  color: #007bff;
 }
