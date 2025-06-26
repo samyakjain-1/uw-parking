@@ -2,6 +2,10 @@
 
 This web application provides a live, interactive map to help users find available parking at the University of Wisconsin-Madison campus. It scrapes real-time parking data, allows users to search for a destination, and displays the nearest available parking garages, sorted by distance.
 
+## Demo
+
+[Watch a video demonstration of the application.](./video/demo.mov)
+
 ## Features
 
 - **Live Data Scraping:** A Python script runs continuously to scrape the latest parking availability from the [UW Transportation Services website](https://transportation.wisc.edu/parking-lots/lot-occupancy-count/).
