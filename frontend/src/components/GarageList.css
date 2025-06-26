@@ -1,0 +1,91 @@
+.garage-list-container {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 350px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 10px 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888;
+}
+
+.close-button:hover {
+  color: #000;
+}
+
+.garage-list-container h2 {
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.garage-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.garage-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.garage-list li:hover {
+  background-color: #f9f9f9;
+}
+
+.garage-list li:last-child {
+  border-bottom: none;
+}
+
+.garage-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.garage-info strong {
+  font-size: 16px;
+}
+
+.garage-info span {
+  font-size: 14px;
+  color: #555;
+}
+
+.garage-availability {
+  text-align: right;
+}
+
+.garage-availability span {
+  font-size: 20px;
+  font-weight: bold;
+  color: #28a745;
+}
+
+.garage-availability small {
+  font-size: 12px;
+  color: #6c757d;
+  display: block;
+}
