@@ -4,14 +4,14 @@ This web application provides a live, interactive map to help users find availab
 
 ## Features
 
-- **Live Data Scraping:** A Python script runs continuously to scrape the latest parking availability from the UW Transportation Services website.
+- **Live Data Scraping:** A Python script runs continuously to scrape the latest parking availability from the [UW Transportation Services website](https://transportation.wisc.edu/parking-lots/lot-occupancy-count/).
 - **Interactive Google Map:** Displays garage locations on a clean, easy-to-read map.
 - **Destination Search:** Users can type in any destination, and the app will provide autocomplete suggestions using the Google Places API.
 - **Smart Filtering & Sorting:** When a destination is selected, the map automatically filters out full garages and sorts the remaining options by proximity.
 - **Color-Coded Markers:** Garage pins are color-coded for at-a-glance availability:
-    - **Green:** 5+ spaces available
-    - **Yellow:** 1-4 spaces available
-    - **Red:** Full
+    - 🟢 Green: 5+ spaces available  
+    - 🟡 Yellow: 1–4 spaces available  
+    - 🔴 Red: Full  
 - **Detailed Info Windows:** Clicking on a garage pin or list item reveals its name, address, exact availability, and distance from the destination.
 - **Smooth UI:** The map pans and zooms smoothly to new locations for a polished user experience.
 - **Modular Architecture:** The backend, scraper, and frontend are decoupled, making the application maintainable and scalable.
