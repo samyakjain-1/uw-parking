@@ -105,18 +105,20 @@ def get_history(garage_name):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# --- Scheduler Setup ---
+# This code now runs when Gunicorn imports the file, ensuring the job starts in production.
+# Run a scrape immediately on startup
+do_scrape() 
+# Then schedule it to run every 60 seconds
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=do_scrape, trigger="interval", seconds=60)
+scheduler.start()
+
+# To shut down the scheduler when the app exits
+import atexit
+atexit.register(lambda: scheduler.shutdown())
+
 if __name__ == '__main__':
-    # --- Scheduler Setup ---
-    # Run a scrape immediately on startup
-    do_scrape() 
-    # Then schedule it to run every 60 seconds
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(func=do_scrape, trigger="interval", seconds=60)
-    scheduler.start()
-    
-    print("Flask server and background scraper are running...")
-    # To shut down the scheduler when the app exits
-    import atexit
-    atexit.register(lambda: scheduler.shutdown())
-    
-    app.run(debug=False, port=5001) # debug=False is better for scheduled jobs
+    # This block is now only for local development
+    print("Flask server and background scraper are running for local development...")
+    app.run(debug=True, port=5001)
