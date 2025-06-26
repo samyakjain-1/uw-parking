@@ -1,53 +1,52 @@
-from flask import Flask, jsonify
+import os
+from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
-import sqlite3
+from data_manager import DatabaseManager
 
-# --- Configuration ---
-DB_FILE = 'parking_data.db'
-
-app = Flask(__name__)
-# Enable CORS to allow requests from the React frontend
+app = Flask(__name__, static_folder='frontend/build', static_url_path='')
+# Enable CORS to allow requests from the React frontend during development
 CORS(app)
-
-def get_db_connection():
-    """Establishes a connection to the database."""
-    conn = sqlite3.connect(DB_FILE)
-    conn.row_factory = sqlite3.Row  # This allows accessing columns by name
-    return conn
 
 @app.route('/api/garages', methods=['GET'])
 def get_garages():
     """
     API endpoint to fetch all garage data, joined with the latest availability.
     """
+    db_manager = DatabaseManager()
     try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        # SQL query to get all garages and their most recent availability status
-        cursor.execute('''
-            SELECT
-                g.id,
-                g.name,
-                g.address,
-                g.latitude,
-                g.longitude,
-                a.vacant_stalls,
-                a.timestamp
-            FROM
-                garages g
-            LEFT JOIN
-                availability a ON g.name = a.garage_name
-        ''')
-        
-        garages = [dict(row) for row in cursor.fetchall()]
-        conn.close()
-        
+        db_manager.connect()
+        with db_manager.conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cursor:
+            cursor.execute('''
+                SELECT
+                    g.id,
+                    g.name,
+                    g.address,
+                    g.latitude,
+                    g.longitude,
+                    a.vacant_stalls,
+                    a.timestamp
+                FROM
+                    garages g
+                LEFT JOIN
+                    availability a ON g.name = a.garage_name
+            ''')
+            garages = [dict(row) for row in cursor.fetchall()]
         return jsonify(garages)
-        
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    finally:
+        if db_manager.conn:
+            db_manager.close()
+
+# Serve React App
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
-    # Note: For development only. Use a proper WSGI server for production.
-    app.run(debug=True, port=5001)
+    # Use Gunicorn for production, but this is fine for local dev
+    app.run(use_reloader=True, port=5001, threaded=True)

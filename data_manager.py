@@ -1,17 +1,27 @@
-import sqlite3
+import psycopg2
+import psycopg2.extras
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class DatabaseManager:
     """
-    A modular class to handle all interactions with the SQLite database.
-    This can be replaced by a different manager (e.g., for Redis) in the future.
+    A modular class to handle all interactions with the PostgreSQL database.
     """
-    def __init__(self, db_file):
-        self.db_file = db_file
+    def __init__(self):
+        self.db_url = os.environ.get('DATABASE_URL')
+        if not self.db_url:
+            raise ValueError("No DATABASE_URL set for the database connection.")
         self.conn = None
 
     def connect(self):
         """Establishes a connection to the database."""
-        self.conn = sqlite3.connect(self.db_file)
+        try:
+            self.conn = psycopg2.connect(self.db_url)
+        except psycopg2.OperationalError as e:
+            print(f"Error connecting to the database: {e}")
+            raise
 
     def close(self):
         """Closes the database connection."""
@@ -26,26 +36,26 @@ class DatabaseManager:
         if not self.conn:
             self.connect()
         
-        cursor = self.conn.cursor()
-        # Static garage information
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS garages (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT UNIQUE NOT NULL,
-                address TEXT,
-                latitude REAL,
-                longitude REAL
-            )
-        ''')
-        # Dynamic availability data
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS availability (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                garage_name TEXT UNIQUE NOT NULL,
-                vacant_stalls TEXT,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-            )
-        ''')
+        with self.conn.cursor() as cursor:
+            # Static garage information
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS garages (
+                    id SERIAL PRIMARY KEY,
+                    name TEXT UNIQUE NOT NULL,
+                    address TEXT,
+                    latitude REAL,
+                    longitude REAL
+                )
+            ''')
+            # Dynamic availability data
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS availability (
+                    id SERIAL PRIMARY KEY,
+                    garage_name TEXT UNIQUE NOT NULL,
+                    vacant_stalls TEXT,
+                    timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+                )
+            ''')
         self.conn.commit()
         print("Database tables are set up.")
 
@@ -56,9 +66,13 @@ class DatabaseManager:
         if not self.conn:
             self.connect()
             
-        cursor = self.conn.cursor()
-        cursor.execute('''
-            INSERT OR REPLACE INTO availability (garage_name, vacant_stalls, timestamp)
-            VALUES (?, ?, CURRENT_TIMESTAMP)
-        ''', (garage_name, vacant_stalls))
+        with self.conn.cursor() as cursor:
+            # Use ON CONFLICT to perform an "upsert"
+            cursor.execute('''
+                INSERT INTO availability (garage_name, vacant_stalls, timestamp)
+                VALUES (%s, %s, CURRENT_TIMESTAMP)
+                ON CONFLICT (garage_name) DO UPDATE SET
+                    vacant_stalls = EXCLUDED.vacant_stalls,
+                    timestamp = CURRENT_TIMESTAMP;
+            ''', (garage_name, vacant_stalls))
         self.conn.commit()

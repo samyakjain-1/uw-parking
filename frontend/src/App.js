@@ -35,7 +35,7 @@ const MapContainer = () => {
   useEffect(() => {
     const fetchGarages = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/garages');
+        const response = await fetch('/api/garages');
         const data = await response.json();
         const validGarages = data.filter(g => g.latitude && g.longitude);
         setAllGarages(validGarages);

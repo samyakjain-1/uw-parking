@@ -2,3 +2,6 @@ requests
 beautifulsoup4
 Flask
 Flask-Cors
+gunicorn
+psycopg2-binary
+python-dotenv

@@ -8,94 +8,124 @@ This web application provides a live, interactive map to help users find availab
 - **Interactive Google Map:** Displays garage locations on a clean, easy-to-read map.
 - **Destination Search:** Users can type in any destination, and the app will provide autocomplete suggestions using the Google Places API.
 - **Smart Filtering & Sorting:** When a destination is selected, the map automatically filters out full garages and sorts the remaining options by proximity.
-- **Color-Coded Markers:** Garage pins are color-coded for at-a-glance availability:
-    - **Green:** 5+ spaces available
-    - **Yellow:** 1-4 spaces available
-    - **Red:** Full
-- **Detailed Info Windows:** Clicking on a garage pin or list item reveals its name, address, exact availability, and distance from the destination.
+- **Color-Coded Markers:** Garage pins are color-coded for at-a-glance availability.
 - **Smooth UI:** The map pans and zooms smoothly to new locations for a polished user experience.
 - **Modular Architecture:** The backend, scraper, and frontend are decoupled, making the application maintainable and scalable.
 
 ## Tech Stack
 
-- **Frontend:** React, Google Maps JavaScript API (`@vis.gl/react-google-maps`)
-- **Backend API:** Flask
-- **Database:** SQLite
+- **Frontend:** React, Google Maps JavaScript API
+- **Backend API:** Flask, Gunicorn
+- **Database:** PostgreSQL
 - **Web Scraping:** Python (`requests`, `BeautifulSoup`)
+- **Deployment:** Heroku
 
-## Setup and Installation
+---
 
-Follow these steps to get the application running locally.
+## Local Development Setup
 
-### 1. Clone the Repository
+Follow these steps to get the application running on your local machine.
 
-```bash
-git clone <your-repository-url>
-cd <your-repository-directory>
-```
+### 1. Prerequisites
+- Python 3 and `pip`
+- Node.js and `npm`
+- A local PostgreSQL instance
 
-### 2. Set Up the Python Backend
+### 2. Setup
+1.  **Clone the Repository:**
+    ```bash
+    git clone <your-repository-url>
+    cd <your-repository-directory>
+    ```
+2.  **Install Python Dependencies:**
+    ```bash
+    pip3 install -r requirements.txt
+    ```
+3.  **Install Frontend Dependencies:**
+    ```bash
+    cd frontend
+    npm install
+    cd ..
+    ```
+4.  **Configure Environment Variables:**
+    - Create a `.env` file in the root directory.
+    - Add your local PostgreSQL database URL and your Google Maps API key:
+      ```
+      DATABASE_URL=postgresql://user:password@localhost:5432/yourdbname
+      REACT_APP_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+      ```
+    - **Important:** Also create a `.env` file inside the `frontend` directory containing just the `REACT_APP_GOOGLE_MAPS_API_KEY` for the React build process to use.
 
-First, install the required Python packages.
+### 3. Running Locally
+1.  **Seed the Database (run once):**
+    ```bash
+    python3 seed_database.py
+    ```
+2.  **Start the Backend API (Terminal 1):**
+    ```bash
+    python3 api.py
+    ```
+3.  **Start the Scraper (Terminal 2):**
+    ```bash
+    python3 scraper.py
+    ```
+4.  **Start the Frontend (Terminal 3):**
+    ```bash
+    cd frontend
+    npm start
+    ```
 
-```bash
-pip3 install -r requirements.txt
-```
+---
 
-Next, create the database and populate it with the static garage location data by running the seed script **once**.
+## Heroku Deployment Instructions
 
-```bash
-python3 seed_database.py
-```
+Follow these steps to deploy the application to Heroku.
 
-### 3. Set Up the React Frontend
+### 1. Prerequisites
+- A free [Heroku account](https://signup.heroku.com/).
+- The [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed on your machine.
+- The project pushed to a GitHub repository.
 
-Navigate to the `frontend` directory and install the necessary Node.js packages.
+### 2. Deployment Steps
 
-```bash
-cd frontend
-npm install
-```
+1.  **Log in to Heroku:**
+    ```bash
+    heroku login
+    ```
 
-Next, you need to provide a Google Maps API key. Create a new file named `.env` in the `frontend` directory.
+2.  **Create a New Heroku App:**
+    From your Heroku dashboard, click "New" -> "Create new app". Give it a unique name.
 
-```bash
-touch .env
-```
+3.  **Connect to GitHub:**
+    In the "Deploy" tab of your new Heroku app, connect to your GitHub account and link the correct repository.
 
-Open the `.env` file and add your API key in the following format. **Remember to enable the "Maps JavaScript API" and the "Places API" in your Google Cloud project.**
+4.  **Add Buildpacks:**
+    In the "Settings" tab, scroll down to the "Buildpacks" section. You need to add two, **in this specific order**:
+    1.  `heroku/python`
+    2.  `heroku/nodejs`
 
-```
-REACT_APP_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
-```
+5.  **Provision PostgreSQL Database:**
+    In the "Resources" tab, search for the **"Heroku Postgres"** add-on and provision the free "Hobby Dev" plan. This will automatically create a `DATABASE_URL` config var.
 
-## Running the Application
+6.  **Set Environment Variables:**
+    In the "Settings" tab, click "Reveal Config Vars". Add your Google Maps API key:
+    - **KEY:** `REACT_APP_GOOGLE_MAPS_API_KEY`
+    - **VALUE:** `your_google_maps_api_key_here`
 
-To run the full application, you will need to open **three separate terminal windows**.
+7.  **Deploy the Application:**
+    Go to the "Deploy" tab and trigger a manual deployment of the `main` branch. Heroku will now build both the frontend and backend.
 
-### Terminal 1: Start the Backend API
+8.  **Seed the Production Database:**
+    After the deployment is successful, you need to run the seed script on the Heroku server.
+    - In your local terminal, run:
+      ```bash
+      heroku run python3 seed_database.py --app your-heroku-app-name
+      ```
+    - This command executes the script on a one-off dyno, populating your live database.
 
-This server provides the garage data to the frontend.
+9.  **Scale Your Dynos:**
+    By default, only the `web` process runs. You need to enable the `worker` process.
+    - In the "Resources" tab, you should see your `web` and `worker` dynos listed (from the `Procfile`).
+    - Click the "Edit" icon (pencil) for the `worker` dyno, toggle it on, and click "Confirm".
 
-```bash
-python3 api.py
-```
-
-### Terminal 2: Start the Automated Scraper
-
-This script will run in the background, continuously updating the database with live availability data every 60 seconds.
-
-```bash
-python3 scraper.py
-```
-
-### Terminal 3: Start the Frontend
-
-This will launch the React development server and open the application in your web browser.
-
-```bash
-cd frontend
-npm start
-```
-
-You can now access the live parking map at `http://localhost:3000`.
+Your application is now live! You can open it using the "Open app" button in the top-right of your Heroku dashboard.
