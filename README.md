@@ -4,7 +4,12 @@ This web application provides a live, interactive map to help users find availab
 
 ## Demo
 
-[Watch a video demonstration of the application.](./video/demo.mov)
+
+
+https://github.com/user-attachments/assets/fd9a0534-494b-4e8b-8227-6b1f7545ac68
+
+
+
 
 ## Features
 
