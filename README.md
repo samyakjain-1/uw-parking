@@ -30,8 +30,8 @@ Follow these steps to get the application running locally.
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
-cd <your-repository-directory>
+git clone https://github.com/samyakjain-1/uw-parking.git
+cd uw-parking/
 ```
 
 ### 2. Set Up the Python Backend
