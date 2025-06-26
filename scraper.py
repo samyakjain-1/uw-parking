@@ -5,6 +5,7 @@ import time
 import datetime
 
 # --- Configuration ---
+DB_FILE = 'parking_data.db'
 URL = "https://transportation.wisc.edu/parking-lots/lot-occupancy-count/"
 SCRAPE_INTERVAL = 60 # seconds
 
@@ -13,7 +14,7 @@ def scrape_and_update():
     """
     Scrapes parking availability and uses the DatabaseManager to update it.
     """
-    db_manager = DatabaseManager()
+    db_manager = DatabaseManager(DB_FILE)
     db_manager.connect()
 
     try:

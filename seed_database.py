@@ -1,6 +1,7 @@
-import os
-import psycopg2
-from data_manager import DatabaseManager
+import sqlite3
+
+# --- Configuration ---
+DB_FILE = 'parking_data.db'
 
 # --- Data provided by the user ---
 GARAGE_DATA = [
@@ -90,37 +91,43 @@ GARAGE_DATA = [
     }
 ]
 
+def setup_database():
+    """Initializes the SQLite database and creates the garages table if it doesn't exist."""
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS garages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT UNIQUE NOT NULL,
+            address TEXT,
+            latitude REAL,
+            longitude REAL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
 def seed_data():
     """Inserts the garage data into the database, ignoring duplicates."""
-    db_manager = DatabaseManager()
-    db_manager.connect()
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
     
     print("--- Seeding Database ---")
-    with db_manager.conn.cursor() as cursor:
-        for garage in GARAGE_DATA:
-            # Check if the garage already exists before inserting
-            cursor.execute("SELECT name FROM garages WHERE name = %s", (garage['name'],))
-            if cursor.fetchone():
-                print(f"'{garage['name']}' already exists. Skipping.")
-                continue
-
-            try:
-                cursor.execute('''
-                    INSERT INTO garages (name, address, latitude, longitude)
-                    VALUES (%s, %s, %s, %s)
-                ''', (garage['name'], garage['address'], garage['latitude'], garage['longitude']))
-                print(f"Added '{garage['name']}' to the database.")
-            except psycopg2.Error as e:
-                print(f"Error inserting {garage['name']}: {e}")
-                db_manager.conn.rollback()
-
-    db_manager.conn.commit()
-    db_manager.close()
+    for garage in GARAGE_DATA:
+        try:
+            cursor.execute('''
+                INSERT INTO garages (name, address, latitude, longitude)
+                VALUES (?, ?, ?, ?)
+            ''', (garage['name'], garage['address'], garage['latitude'], garage['longitude']))
+            print(f"Added '{garage['name']}' to the database.")
+        except sqlite3.IntegrityError:
+            # This happens if the garage name (UNIQUE) already exists.
+            print(f"'{garage['name']}' already exists. Skipping.")
+            
+    conn.commit()
+    conn.close()
     print("\n--- Database Seeding Finished ---")
 
 if __name__ == "__main__":
-    # First, ensure the tables exist
-    db_manager = DatabaseManager()
-    db_manager.setup_tables()
-    # Then, seed the data
+    setup_database()
     seed_data()
