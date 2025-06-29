@@ -13,7 +13,7 @@ https://github.com/user-attachments/assets/fd9a0534-494b-4e8b-8227-6b1f7545ac68
 
 ## Features
 
-- **Live Data Scraping:** A Python script runs continuously to scrape the latest parking availability from the [UW Transportation Services website](https://transportation.wisc.edu/parking-lots/lot-occupancy-count/).
+- **Live Data Scraping:** A Python script runs continuously to scrape the latest parking availability from the [UW Transportation Services website](https://transportation.wisc.edu/parking-lots/lot-occupancy-count/) and the [City of Madison Website](https://www.cityofmadison.com/parking/garages-lots/current-hourly-parking-availability).
 - **Interactive Google Map:** Displays garage locations on a clean, easy-to-read map.
 - **Destination Search:** Users can type in any destination, and the app will provide autocomplete suggestions using the Google Places API.
 - **Smart Filtering & Sorting:** When a destination is selected, the map automatically filters out full garages and sorts the remaining options by proximity.
