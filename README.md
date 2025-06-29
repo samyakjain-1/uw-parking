@@ -109,34 +109,3 @@ npm start
 ```
 
 You can now access the live parking map at `http://localhost:3000`.
-
-## Deployment on Render (Free Tier)
-
-This project can be deployed for free on [Render](https://render.com/). You will need to create two services: a **Static Site** for the frontend and a **Web Service** for the backend.
-
-### 1. Deploy the Backend API
-
-1.  Go to the Render Dashboard and create a new **Web Service**.
-2.  Connect your GitHub repository.
-3.  Give your service a name (e.g., `uw-parking-api`).
-4.  Set the **Root Directory** to `./`.
-5.  Set the **Environment** to `Python 3`.
-6.  Render will automatically detect your `requirements.txt` and run `pip install -r requirements.txt`.
-7.  Set the **Start Command** to: `gunicorn api:app`
-8.  Click **Create Web Service**. After the build finishes, copy the URL of your service (e.g., `https://uw-parking-api.onrender.com`).
-
-### 2. Deploy the Frontend
-
-1.  Go to the Render Dashboard and create a new **Static Site**.
-2.  Connect the same GitHub repository.
-3.  Give your site a name (e.g., `uw-parking-map`).
-4.  Set the **Root Directory** to `frontend`.
-5.  Render will detect it's a React app. The **Build Command** should be `npm run build` and the **Publish Directory** should be `build`.
-6.  Go to the **Environment** tab for this service and add two environment variables:
-    -   **Key:** `REACT_APP_GOOGLE_MAPS_API_KEY`
-        -   **Value:** `your_google_maps_api_key_here`
-    -   **Key:** `REACT_APP_API_URL`
-        -   **Value:** The URL of your backend service you copied in the previous step (e.g., `https://uw-parking-api.onrender.com`).
-7.  Click **Create Static Site**.
-
-Your application will now be live and publicly accessible.
