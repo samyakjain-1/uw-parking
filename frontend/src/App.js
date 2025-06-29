@@ -25,42 +25,67 @@ const haversineDistance = (coords1, coords2) => {
   return R * c; // Distance in miles
 };
 
-// New helper to determine the current rate based on time
+// Helper to normalize rate strings to a per-hour format
+const normalizeRate = (rateString) => {
+  if (!rateString || typeof rateString !== 'string') return "N/A";
+  if (rateString.toLowerCase() === 'free') return "Free";
+  
+  const per30MinMatch = rateString.match(/\$(\d+(\.\d+)?)\/30min/);
+  if (per30MinMatch) {
+    const price = parseFloat(per30MinMatch[1]) * 2;
+    return `$${price.toFixed(2)}/hr`;
+  }
+
+  const perHourMatch = rateString.match(/\$(\d+(\.\d+)?)\/hr/);
+  if (perHourMatch) {
+    const price = parseFloat(perHourMatch[1]);
+    return `$${price.toFixed(2)}/hr`;
+  }
+  
+  return rateString.split(' ')[0]; // Fallback to the first part of the string
+};
+
+// Helper to determine the current rate based on time
 const getCurrentRate = (garage) => {
   const now = new Date();
-  // Assuming CDT - getDay() is 0 for Sun, 6 for Sat
   const day = now.getDay(); 
   const hour = now.getHours();
 
   const isWeekday = day >= 1 && day <= 5;
-  const isDaytime = hour >= 7 && hour < 16.5; // 4:30 PM is 16.5
+  const isDaytime = hour >= 7 && hour < 16.5;
   const isEvening = hour >= 16.5 && hour < 24;
 
-  if (garage.notes.includes("Enforced at all times")) {
-    return hour >= 7 ? garage.daytime_rate : garage.evening_rate;
+  let rate;
+  // Handle City garages with simple 24/7 enforcement
+  if (garage.source === 'City' && garage.notes.includes("Enforced 24/7")) {
+    rate = garage.daytime_rate; // City garages often have a single primary rate
+  } 
+  // Handle UW garages with complex schedules
+  else if (garage.source === 'UW' || garage.notes.includes("daily")) {
+    if (garage.notes.includes("Enforced at all times")) {
+      rate = hour >= 7 ? garage.daytime_rate : garage.evening_rate;
+    } else if (garage.notes.includes("all day Sat/Sun")) {
+      if (!isWeekday) rate = "Free";
+      else if (isDaytime) rate = garage.daytime_rate;
+      else if (isEvening) rate = garage.evening_rate;
+      else rate = "Free";
+    } else if (garage.notes.includes("all day Sun")) {
+      if (day === 0) rate = "Free";
+      else if (isDaytime) rate = garage.daytime_rate;
+      else if (isEvening) rate = garage.evening_rate;
+      else rate = "Free";
+    } else if (garage.notes.includes("daily")) {
+      if (isDaytime) rate = garage.daytime_rate;
+      else if (isEvening) rate = garage.evening_rate;
+      else rate = "Free";
+    }
+  }
+  // Fallback for any other cases
+  else {
+    rate = garage.daytime_rate || "N/A";
   }
   
-  if (garage.notes.includes("all day Sat/Sun")) {
-    if (!isWeekday) return "Free";
-    if (isDaytime) return garage.daytime_rate;
-    if (isEvening) return garage.evening_rate;
-    return "Free";
-  }
-
-  if (garage.notes.includes("all day Sun")) {
-    if (day === 0) return "Free";
-    if (isDaytime) return garage.daytime_rate;
-    if (isEvening) return garage.evening_rate;
-    return "Free";
-  }
-
-  if (garage.notes.includes("daily")) {
-    if (isDaytime) return garage.daytime_rate;
-    if (isEvening) return garage.evening_rate;
-    return "Free";
-  }
-
-  return "Check notes for details";
+  return normalizeRate(rate);
 };
 
 

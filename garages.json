@@ -1,142 +1,222 @@
 [
   {
-    "id": 20,
+    "id": "20-UW",
     "name": "020  UNIVERSITY AVE RAMP",
     "address": "1390 University Ave, Madison, WI 53706",
     "latitude": 43.0734493,
     "longitude": -89.4087136,
     "daytime_rate": "Daytime (Mon\u2013Fri, 7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (Mon\u2013Fri, 4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am Mon-Fri & all day Sat/Sun."
+    "notes": "Free 12am-7am Mon-Fri & all day Sat/Sun.",
+    "source": "UW"
   },
   {
-    "id": 27,
+    "id": "27-UW",
     "name": "027  NANCY NICHOLAS HALL GARAGE",
     "address": "1314 Linden Dr, Madison, WI 53706",
     "latitude": 43.0752143,
     "longitude": -89.4111493,
     "daytime_rate": "Daytime (7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am daily."
+    "notes": "Free 12am-7am daily.",
+    "source": "UW"
   },
   {
-    "id": 36,
+    "id": "36-UW",
     "name": "036  OBSERVATORY DR RAMP",
     "address": "Steenbock Ramp, 1645 Observatory Dr, Madison, WI 53706",
     "latitude": 43.076516,
     "longitude": -89.4134245,
     "daytime_rate": "Daytime (Mon\u2013Fri, 7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (Mon\u2013Fri, 4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am Mon-Fri & all day Sat/Sun."
+    "notes": "Free 12am-7am Mon-Fri & all day Sat/Sun.",
+    "source": "UW"
   },
   {
-    "id": 67,
+    "id": "67-UW",
     "name": "067  LINDEN DRIVE RAMP",
     "address": "2002 Linden Dr, Madison, WI 53706",
     "latitude": 43.0755893,
     "longitude": -89.4173042,
     "daytime_rate": "Daytime (7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am daily."
+    "notes": "Free 12am-7am daily.",
+    "source": "UW"
   },
   {
-    "id": 6,
+    "id": "6-UW-LOWR",
     "name": "006L HC WHITE GARAGE LOWR",
     "address": "600 N Park St, Madison, WI 53706",
     "latitude": 43.0766852,
     "longitude": -89.4013127,
     "daytime_rate": "Daytime (7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am daily."
+    "notes": "Free 12am-7am daily.",
+    "source": "City"
   },
   {
-    "id": 6,
+    "id": "6-UW-UPPR",
     "name": "006U HC WHITE GARAGE UPPR",
     "address": "600 N Park St, Madison, WI 53706",
     "latitude": 43.0766852,
     "longitude": -89.4013127,
     "daytime_rate": "Daytime (7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am daily."
+    "notes": "Free 12am-7am daily.",
+    "source": "City"
   },
   {
-    "id": 7,
+    "id": "7-UW",
     "name": "007  GRAINGER HALL GARAGE",
     "address": "325 N Brooks St, Madison, WI 53715",
     "latitude": 43.072856,
     "longitude": -89.4022902,
     "daytime_rate": "Daytime (Mon\u2013Sat, 7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (Mon\u2013Sat, 4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am Mon-Sat & all day Sun."
+    "notes": "Free 12am-7am Mon-Sat & all day Sun.",
+    "source": "UW"
   },
   {
-    "id": 29,
+    "id": "29-UW",
     "name": "029  N PARK STREET RAMP",
     "address": "21 N Park St, Madison, WI 53715",
     "latitude": 43.068625,
     "longitude": -89.400834,
     "daytime_rate": "Daytime (7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am daily."
+    "notes": "Free 12am-7am daily.",
+    "source": "UW"
   },
   {
-    "id": 46,
+    "id": "46-UW",
     "name": "046  LAKE & JOHNSON RAMP",
     "address": "301 North Lake Street, Madison, WI 53715",
     "latitude": 43.072142,
     "longitude": -89.397361,
     "daytime_rate": "Daytime (7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am daily."
+    "notes": "Free 12am-7am daily.",
+    "source": "UW"
   },
   {
-    "id": 83,
+    "id": "83-UW",
     "name": "083  FLUNO CENTER GARAGE",
     "address": "314 N Frances St, Madison, WI 53715",
     "latitude": 43.0727,
     "longitude": -89.395955,
     "daytime_rate": "Daytime (7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am daily."
+    "notes": "Free 12am-7am daily.",
+    "source": "UW"
   },
   {
-    "id": 17,
+    "id": "17-UW",
     "name": "017 ENGINEERING DR RAMP",
     "address": "1525 Engineering Dr, Madison, WI 53706",
     "latitude": 43.0718182,
     "longitude": -89.4123866,
     "daytime_rate": "Daytime (Mon\u2013Fri, 7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (Mon\u2013Fri, 4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am Mon-Fri & all day Sat/Sun."
+    "notes": "Free 12am-7am Mon-Fri & all day Sat/Sun.",
+    "source": "UW"
   },
   {
-    "id": 80,
+    "id": "80-UW",
     "name": "080  UNION SOUTH GARAGE",
     "address": "1308 W Dayton St, Madison, WI 53715",
     "latitude": 43.0711743,
     "longitude": -89.4089623,
     "daytime_rate": "Daytime (7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am daily."
+    "notes": "Free 12am-7am daily.",
+    "source": "UW"
   },
   {
-    "id": 63,
+    "id": "63-UW",
     "name": "063 CHILDRENS HOSP GARAGE",
     "address": "1585 Highland Ave, Madison, WI 53705",
     "latitude": 43.0788761,
     "longitude": -89.4321361,
     "daytime_rate": "Daytime (7am\u201312am): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Overnight (12am\u20137am): $1/hr. $5 max.",
-    "notes": "Enforced at all times."
+    "notes": "Enforced at all times.",
+    "source": "UW"
   },
   {
-    "id": 76,
+    "id": "76-UW",
     "name": "076  UNIV BAY DRIVE RAMP",
     "address": "2501 University Bay Dr, Madison, WI 53705",
     "latitude": 43.0813698,
     "longitude": -89.428328,
     "daytime_rate": "Daytime (Mon\u2013Fri, 7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
     "evening_rate": "Evening (Mon\u2013Fri, 4:30pm\u201312am): $1/hr. $5 max.",
-    "notes": "Free 12am-7am Mon-Fri & all day Sat/Sun."
+    "notes": "Free 12am-7am Mon-Fri & all day Sat/Sun.",
+    "source": "UW"
+  },
+  {
+    "id": "1-City",
+    "name": "Overture Center Garage",
+    "address": "318 W. Mifflin St. Madison, WI 53703",
+    "latitude": 43.0733261,
+    "longitude": -89.3892791,
+    "daytime_rate": "$1.60 per hour",
+    "evening_rate": "$8.00 maximum",
+    "notes": "Enforced 24/7, including Sundays and holidays.",
+    "source": "City"
+  },
+  {
+    "id": "2-City",
+    "name": "State Street Capitol Garage",
+    "address": "200 N. Carroll St. Madison, WI 53703",
+    "latitude": 43.0753866,
+    "longitude": -89.3873076,
+    "daytime_rate": "$1.50 per hour",
+    "evening_rate": "$8.00 maximum",
+    "notes": "Enforced 24/7, including Sundays and holidays.",
+    "source": "City"
+  },
+  {
+    "id": "5-City",
+    "name": "State Street Campus Garage",
+    "address": "430 N. Frances St. Madison, WI 53703",
+    "latitude": 43.074067,
+    "longitude": -89.396241,
+    "daytime_rate": "$1.80 per hour",
+    "evening_rate": "$8.00 maximum",
+    "notes": "Enforced 24/7, including Sundays and holidays.",
+    "source": "City"
+  },
+  {
+    "id": "6-City",
+    "name": "Capitol Square North Garage",
+    "address": "218 E. Mifflin St. Madison, WI 53703",
+    "latitude": 43.077771,
+    "longitude": -89.3832708,
+    "daytime_rate": "Daytime (7am\u20134:30pm): $1/30min (first 3 hrs), then $1/hr. $15 max.",
+    "evening_rate": "Evening (4:30pm\u201312am): $1/hr. $5 max.",
+    "notes": "Free 12am-7am daily.",
+    "source": "City"
+  },
+  {
+    "id": "18-City",
+    "name": "South Livingston Street Garage",
+    "address": "111 S. Livingston St. Madison, WI 53703",
+    "latitude": 43.0804307,
+    "longitude": -89.3735022,
+    "daytime_rate": "$1.20 per hour",
+    "evening_rate": "$8.00 maximum",
+    "notes": "Enforced 24/7, including Sundays and holidays.",
+    "source": "City"
+  },
+  {
+    "id": "19-City",
+    "name": "Wilson Street Garage",
+    "address": "20 E. Wilson St. Madison, WI 53703",
+    "latitude": 43.0731112,
+    "longitude": -89.3806359,
+    "daytime_rate": "$1.80 per hour",
+    "evening_rate": "$8.00 maximum",
+    "notes": "Enforced 24/7, including Sundays and holidays.",
+    "source": "City"
   }
 ]

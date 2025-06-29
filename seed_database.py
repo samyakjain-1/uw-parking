@@ -60,6 +60,31 @@ GARAGE_DATA = [
     {
         "name": "076  UNIV BAY DRIVE RAMP", "lot_number": 76,
         "address": "2501 University Bay Dr, Madison, WI 53705", "latitude": 43.0813698, "longitude": -89.428328
+    },
+    # --- City of Madison Garages ---
+    {
+        "name": "Overture Center Garage", "lot_number": 1,
+        "address": "318 W. Mifflin St. Madison, WI 53703", "latitude": 43.0733261, "longitude": -89.3892791
+    },
+    {
+        "name": "State Street Capitol Garage", "lot_number": 2,
+        "address": "200 N. Carroll St. Madison, WI 53703", "latitude": 43.0753866, "longitude": -89.3873076
+    },
+    {
+        "name": "State Street Campus Garage", "lot_number": 5,
+        "address": "430 N. Frances St. Madison, WI 53703", "latitude": 43.074067, "longitude": -89.396241
+    },
+    {
+        "name": "Capitol Square North Garage", "lot_number": 6,
+        "address": "218 E. Mifflin St. Madison, WI 53703", "latitude": 43.077771, "longitude": -89.3832708
+    },
+    {
+        "name": "South Livingston Street Garage", "lot_number": 18,
+        "address": "111 S. Livingston St. Madison, WI 53703", "latitude": 43.0804307, "longitude": -89.3735022
+    },
+    {
+        "name": "Wilson Street Garage", "lot_number": 19,
+        "address": "20 E. Wilson St. Madison, WI 53703", "latitude": 43.0731112, "longitude": -89.3806359
     }
 ]
 
@@ -87,6 +112,42 @@ RATE_SCHEDULES = {
         "daytime_rate": "Daytime (7am–12am): $1/30min (first 3 hrs), then $1/hr. $15 max.",
         "evening_rate": "Overnight (12am–7am): $1/hr. $5 max.",
         "notes": "Enforced at all times."
+    },
+    "city_overture": {
+        "lots": [1],
+        "daytime_rate": "$1.60 per hour",
+        "evening_rate": "$8.00 maximum",
+        "notes": "Enforced 24/7, including Sundays and holidays."
+    },
+    "city_state_capitol": {
+        "lots": [2],
+        "daytime_rate": "$1.50 per hour",
+        "evening_rate": "$8.00 maximum",
+        "notes": "Enforced 24/7, including Sundays and holidays."
+    },
+    "city_state_campus": {
+        "lots": [5],
+        "daytime_rate": "$1.80 per hour",
+        "evening_rate": "$8.00 maximum",
+        "notes": "Enforced 24/7, including Sundays and holidays."
+    },
+    "city_capitol_square_north": {
+        "lots": [6],
+        "daytime_rate": "$1.50 per hour",
+        "evening_rate": "$8.00 maximum",
+        "notes": "Enforced 24/7, including Sundays and holidays."
+    },
+    "city_south_livingston": {
+        "lots": [18],
+        "daytime_rate": "$1.20 per hour",
+        "evening_rate": "$8.00 maximum",
+        "notes": "Enforced 24/7, including Sundays and holidays."
+    },
+    "city_wilson": {
+        "lots": [19],
+        "daytime_rate": "$1.80 per hour",
+        "evening_rate": "$8.00 maximum",
+        "notes": "Enforced 24/7, including Sundays and holidays."
     }
 }
 
@@ -108,15 +169,24 @@ def generate_static_data():
             print(f"Warning: No rate schedule found for lot {garage['lot_number']} ({garage['name']}).")
             continue
 
+        source = "UW" if garage["lot_number"] not in [1, 2, 5, 6, 18, 19] else "City"
+        
+        unique_id = f"{garage['lot_number']}-{source}"
+        if garage['name'] == "006U HC WHITE GARAGE UPPR":
+            unique_id = f"{garage['lot_number']}-UW-UPPR"
+        elif garage['name'] == "006L HC WHITE GARAGE LOWR":
+            unique_id = f"{garage['lot_number']}-UW-LOWR"
+
         processed_garages[garage['name']] = {
-            "id": garage['lot_number'], # Use lot number as a unique ID
+            "id": unique_id,
             "name": garage['name'],
             "address": garage['address'],
             "latitude": garage['latitude'],
             "longitude": garage['longitude'],
             "daytime_rate": schedule['daytime_rate'],
             "evening_rate": schedule['evening_rate'],
-            "notes": schedule['notes']
+            "notes": schedule['notes'],
+            "source": source
         }
 
     # Convert the dictionary to a list for the final JSON array

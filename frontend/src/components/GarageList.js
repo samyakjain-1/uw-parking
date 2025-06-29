@@ -32,24 +32,33 @@ const getCurrentRate = (garage) => {
   const isEvening = hour >= 16.5 && hour < 24;
 
   let rate;
-  if (garage.notes.includes("Enforced at all times")) {
-    rate = hour >= 7 ? garage.daytime_rate : garage.evening_rate;
-  } else if (garage.notes.includes("all day Sat/Sun")) {
-    if (!isWeekday) rate = "Free";
-    else if (isDaytime) rate = garage.daytime_rate;
-    else if (isEvening) rate = garage.evening_rate;
-    else rate = "Free";
-  } else if (garage.notes.includes("all day Sun")) {
-    if (day === 0) rate = "Free";
-    else if (isDaytime) rate = garage.daytime_rate;
-    else if (isEvening) rate = garage.evening_rate;
-    else rate = "Free";
-  } else if (garage.notes.includes("daily")) {
-    if (isDaytime) rate = garage.daytime_rate;
-    else if (isEvening) rate = garage.evening_rate;
-    else rate = "Free";
-  } else {
-    rate = "N/A";
+  // Handle City garages with simple 24/7 enforcement
+  if (garage.source === 'City' && garage.notes.includes("Enforced 24/7")) {
+    rate = garage.daytime_rate; // City garages often have a single primary rate
+  } 
+  // Handle UW garages with complex schedules
+  else if (garage.source === 'UW' || garage.notes.includes("daily")) {
+    if (garage.notes.includes("Enforced at all times")) {
+      rate = hour >= 7 ? garage.daytime_rate : garage.evening_rate;
+    } else if (garage.notes.includes("all day Sat/Sun")) {
+      if (!isWeekday) rate = "Free";
+      else if (isDaytime) rate = garage.daytime_rate;
+      else if (isEvening) rate = garage.evening_rate;
+      else rate = "Free";
+    } else if (garage.notes.includes("all day Sun")) {
+      if (day === 0) rate = "Free";
+      else if (isDaytime) rate = garage.daytime_rate;
+      else if (isEvening) rate = garage.evening_rate;
+      else rate = "Free";
+    } else if (garage.notes.includes("daily")) {
+      if (isDaytime) rate = garage.daytime_rate;
+      else if (isEvening) rate = garage.evening_rate;
+      else rate = "Free";
+    }
+  }
+  // Fallback for any other cases
+  else {
+    rate = garage.daytime_rate || "N/A";
   }
   
   return normalizeRate(rate);
