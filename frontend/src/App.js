@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow, useApiIsLoaded } from '@vis.gl/react-google-maps';
 import PlacesAutocomplete from './components/PlacesAutocomplete';
 import GarageList from './components/GarageList';
 import MapController from './components/MapController';
+import Loader from './components/Loader';
 import './App.css';
 
 // --- Helper Functions ---
@@ -91,7 +92,7 @@ const getCurrentRate = (garage) => {
 
 // --- Main Component ---
 
-const MapContainer = () => {
+const MapContainer = ({ isBackendReady, onBackendReady }) => {
   const [allGarages, setAllGarages] = useState([]);
   const [selectedGarage, setSelectedGarage] = useState(null);
   const [destination, setDestination] = useState(null);
@@ -109,6 +110,7 @@ const MapContainer = () => {
         const data = await response.json();
         const validGarages = data.filter(g => g.latitude && g.longitude);
         setAllGarages(validGarages);
+        onBackendReady();
       } catch (error) {
         console.error("Error fetching garage data:", error);
       }
@@ -119,7 +121,7 @@ const MapContainer = () => {
     
     const intervalId = setInterval(fetchGarages, 30000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [onBackendReady]);
 
   const handleDestinationSelect = (dest) => {
     setDestination(dest);
@@ -170,6 +172,9 @@ const MapContainer = () => {
 
   return (
     <div style={{ height: "100vh", width: "100%" }}>
+      <a href="https://github.com/samyakjain-1/uw-parking" target="_blank" rel="noopener noreferrer" className="github-link">
+        <img src="/github-mark.svg" alt="GitHub" />
+      </a>
       {apiIsLoaded && <PlacesAutocomplete onSelect={handleDestinationSelect} />}
       {showGarageList && (
         <GarageList 
@@ -228,7 +233,14 @@ const MapContainer = () => {
 }
 
 const App = () => {
+  const [isBackendReady, setIsBackendReady] = useState(false);
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY";
+
+  const handleBackendReady = useCallback(() => {
+    if (!isBackendReady) {
+      setIsBackendReady(true);
+    }
+  }, [isBackendReady]);
 
   if (apiKey === "YOUR_GOOGLE_MAPS_API_KEY") {
     return <div className="App"><h1>Google Maps API Key Needed</h1>...</div>;
@@ -236,7 +248,8 @@ const App = () => {
 
   return (
     <APIProvider apiKey={apiKey} libraries={['places']}>
-      <MapContainer />
+      {!isBackendReady && <Loader />}
+      <MapContainer isBackendReady={isBackendReady} onBackendReady={handleBackendReady} />
     </APIProvider>
   );
 };

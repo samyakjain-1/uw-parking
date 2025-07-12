@@ -1,82 +1,82 @@
 {
   "Overture Center Garage": {
-    "vacant_stalls": "460",
-    "timestamp": "2025-06-29T15:12:00"
+    "vacant_stalls": "217",
+    "timestamp": "2025-07-11T22:23:00"
   },
   "State Street Capitol Garage": {
-    "vacant_stalls": "413",
-    "timestamp": "2025-06-29T15:12:00"
+    "vacant_stalls": "149",
+    "timestamp": "2025-07-11T22:23:00"
   },
   "State Street Campus Garage": {
-    "vacant_stalls": "160",
-    "timestamp": "2025-06-29T15:12:00"
+    "vacant_stalls": "321",
+    "timestamp": "2025-07-11T22:23:00"
   },
   "Capitol Square North Garage": {
-    "vacant_stalls": "339",
-    "timestamp": "2025-06-29T15:12:00"
+    "vacant_stalls": "153",
+    "timestamp": "2025-07-11T22:23:00"
   },
   "South Livingston Street Garage": {
-    "vacant_stalls": "516",
-    "timestamp": "2025-06-29T15:12:00"
+    "vacant_stalls": "257",
+    "timestamp": "2025-07-11T22:23:00"
   },
   "Wilson Street Garage": {
-    "vacant_stalls": "281",
-    "timestamp": "2025-06-29T15:12:00"
+    "vacant_stalls": "235",
+    "timestamp": "2025-07-11T22:23:00"
   },
   "020  UNIVERSITY AVE RAMP": {
-    "vacant_stalls": "2",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "100",
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "027  NANCY NICHOLAS HALL GARAGE": {
     "vacant_stalls": "5",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "036  OBSERVATORY DR RAMP": {
-    "vacant_stalls": "5",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "104",
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "067  LINDEN DRIVE RAMP": {
-    "vacant_stalls": "OPEN",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "349",
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "006L HC WHITE GARAGE LOWR": {
-    "vacant_stalls": "5",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "16",
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "006U HC WHITE GARAGE UPPR": {
-    "vacant_stalls": "FULL",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "6",
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "007  GRAINGER HALL GARAGE": {
-    "vacant_stalls": "FULL",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "242",
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "029  N PARK STREET RAMP": {
-    "vacant_stalls": "OPEN",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "221",
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "046  LAKE & JOHNSON RAMP": {
-    "vacant_stalls": "OPEN",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "227",
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "083  FLUNO CENTER GARAGE": {
-    "vacant_stalls": "5",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "48",
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "017 ENGINEERING DR RAMP": {
-    "vacant_stalls": "FULL",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "570",
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "080  UNION SOUTH GARAGE": {
-    "vacant_stalls": "FULL",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "32",
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "063 CHILDRENS HOSP GARAGE": {
-    "vacant_stalls": "33",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "43",
+    "timestamp": "2025-07-11T23:24:34.584365"
   },
   "076  UNIV BAY DRIVE RAMP": {
-    "vacant_stalls": "1017",
-    "timestamp": "2025-06-29T16:12:59.015246"
+    "vacant_stalls": "1060",
+    "timestamp": "2025-07-11T23:24:34.584365"
   }
 }
